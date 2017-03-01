@@ -1,0 +1,19 @@
+---
+title: "Analysis"
+author: "Group 5"
+date: "February 28, 2017"
+output: html_document
+---
+
+```{r setup, echo=FALSE, results='hide', warning=FALSE, message=FALSE}
+require(dplyr)
+require(knitr)
+require(ggplot2)
+
+behav.data <- read.csv("data/behav.csv")
+demo.data <- read.csv("data/demo.csv")
+health.data <- read.csv("data/health.csv")
+mj.data <- read.csv("data/mjdata.csv")
+mjpurchase.data <- read.csv("data/mjpurchase.csv")
+
+```
