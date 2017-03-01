@@ -15,5 +15,10 @@ demo.data <- read.csv("data/demo.csv")
 health.data <- read.csv("data/health.csv")
 mj.data <- read.csv("data/mjdata.csv")
 mjpurchase.data <- read.csv("data/mjpurchase.csv")
+```
+
+```{r demographics, echo=FALSE}
+
+mj.demo.data <- left_join(demo.data, mj.data, by = "CASEID") %>% select(CASEID, IRSEX, MJAGE, MJEVER)
 
 ```
