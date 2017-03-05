@@ -21,19 +21,23 @@ users.only <- select(mjdata, CASEID, MJEVER, MJAGE, MJREC, MJDAY30A) %>% filter(
 users.only <- left_join(users.only, demo, by = "CASEID")
 
 shinyServer(function(input, output) {
-  
- output$demo_plot <- renderPlotly({
-   print(input$question)
-  x <- input$question
-  print(x)
-  color <- input$demo
-   
-   g <- ggplot(users.only, aes(x)) + geom_bar(aes(colour = color))
-   ggplotly(g)
+  database <- reactive({
+    if(input$question == 'MJAGE') {  
+      slidevec <- input$agerange
+      slidemin <- slidevec[1]
+      slidemax <- slidevec[2]
+      ranged.users.only <- filter(users.only, MJAGE >= slidemin, MJAGE <= slidemax)
+      return(ggplot(ranged.users.only, aes_string(x=input$question, fill = input$demo)) + geom_bar(width = 0.4, colour = "black"))
+    } else if (input$question == 'MJREC') {
+      return(ggplot(users.only, aes_string(x=input$question, fill = input$demo)) + geom_bar(width = 0.4, colour = "black") + theme(axis.text.y = element_text(size = 8)) + coord_flip())
+    } else {  
+      return(ggplot(users.only, aes_string(x=input$question, fill = input$demo)) + geom_bar(width = 0.4, colour = "black"))
+    }
+  })
 
-  
-  
-  #output$demo_plot <- renderPlotly ({
-   # return(plot_ly(users.only, x = ~MJAGE, color = ~IRSEX, barmode='stack'))
+ output$demo_plot <- renderPlotly({
+   
+   ggplotly(database())
+
   })
 })

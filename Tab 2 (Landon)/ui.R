@@ -5,18 +5,24 @@
 ### marijuana users' self-reported mental health and general health 
 
 fluidPage(
+  titlePanel("Demographics of Marijuana Users"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("question", label = h3("Questions for Users"), 
+                  choices = c("Age first used?" = 'MJAGE', "How long since used?" = 'MJREC', "Last 30 days?" = 'MJDAY30A'), 
+                  selected = 'MJAGE'),
+      
+      radioButtons("demo", label = h3("Demographic of Interest"),
+                   choices = c("Age" = 'CATAG6', "Sex" = 'IRSEX', "Race" = 'NEWRACE2'), 
+                   selected = 'CATAG6'),
+      
+      conditionalPanel(condition = "input.question == 'MJAGE'",
+        sliderInput("agerange", label = h3("Age Range"), min = 0, max = 80, value = c(0, 30))
+      )
+    ),
   
-  selectInput("question", label = h3("Questions for Users"), 
-              choices = list("Age first used?" = 'MJAGE', "How long since used?" = 2, "Last 30 days?" = 3), 
-              selected = 1),
-  
-  radioButtons("demo", label = h3("Demographic of Interest"),
-               choices = list("Age" = 1, "Sex" = 2, "Race" = 3), 
-               selected = 1),
-  
-  plotlyOutput(outputId = "demo_plot"),
-  
-  hr(),
-  fluidRow(column(3, verbatimTextOutput("value")))
-  
+    mainPanel(
+    plotlyOutput(outputId = "demo_plot")
+    )
+  )
 )
