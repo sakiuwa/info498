@@ -27,11 +27,11 @@ shinyServer(function(input, output) {
       slidemin <- slidevec[1]
       slidemax <- slidevec[2]
       ranged.users.only <- filter(users.only, MJAGE >= slidemin, MJAGE <= slidemax)
-      return(ggplot(ranged.users.only, aes_string(x=input$question, fill = input$demo)) + geom_bar(width = 0.4, colour = "black"))
+      return(ggplot(ranged.users.only, aes_string(x=input$question, fill=input$demo)) + geom_bar(width = 0.4, colour = "black"))
     } else if (input$question == 'MJREC') {
-      return(ggplot(users.only, aes_string(x=input$question, fill = input$demo)) + geom_bar(width = 0.4, colour = "black") + theme(axis.text.y = element_text(size = 8)) + coord_flip())
+      return(ggplot(users.only, aes_string(x=input$question, fill=input$demo)) + geom_bar(width = 0.4, colour = "black") + theme(axis.text.y = element_text(size = 8)) + coord_flip())
     } else {  
-      return(ggplot(users.only, aes_string(x=input$question, fill = input$demo)) + geom_bar(width = 0.4, colour = "black"))
+      return(ggplot(users.only, aes_string(x=input$question)) + geom_bar(width=0.4, colour="black") # + facet_wrap(~ input$demo))??
     }
   })
 
