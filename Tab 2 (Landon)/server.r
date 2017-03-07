@@ -27,6 +27,15 @@ library(survey)
 # 
 # users.only <- filter(mjdata, MJEVER == "(1) Yes") %>% select(CASEID, MJAGE, MJREC, MJDAY30A)
 # users.only <- left_join(users.only, demo, by = "CASEID")
+# users.only$MJREC <- factor(users.only$MJREC,
+#                            levels=c("(01) Within the past 30 days", "(02) More than 30 days ago but within the past 12 mos",
+#                                     "(03) More than 12 months ago",                         
+#                                     "(08) Used at some point in the past 12 mos LOG ASSN",  
+#                                     "(09) Used at some point in the lifetime LOG ASSN",     
+#                                     "(11) Used in the past 30 days LOGICALLY ASSIGNED"),
+#                            labels=c("(01, 11) Past 30 days", "(02, 08) >30days, but in past 12mos", 
+#                                     "(03) > 12 months", "(02, 08) >30days, but in past 12mos", 
+#                                     "(09) Some point in lifetime", "(01, 11) Past 30 days"))
 
 # Read in data necessary for this tab
 users.only <- read.csv("../data/tab2-data.csv")
