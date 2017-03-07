@@ -107,7 +107,7 @@ ui <- shinyUI(fluidPage(
 
 # Define server logic required to draw a histogram
 server <- shinyServer(function(input, output) {
-   
+  
    output$usePlot <- renderPlotly({
      if (input$demographics == "Age") {
        plot.data <- catag6
@@ -122,20 +122,32 @@ server <- shinyServer(function(input, output) {
        x <- x[,1]
        y <- plot.data %>% filter(Usage == 1) 
        y <- y[,2]
+       
+       plot_ly(
+         plot.data, x = ~x, y = ~y, type = "bar", name = "Information"
+       )
      } else if (input$use == "Non-user") {
        x <- plot.data %>% filter(Usage == 2)
        x <- x[,1]
        y <- plot.data %>% filter(Usage == 2)
        y <- y[,2]
+       
+       plot_ly(
+         plot.data, x = ~x, y = ~y, type = "bar", name = "Information"
+       )
      } else {
        x <- plot.data[,1]
        y <- plot.data[,2]
+       
+       plot_ly(plot.data) %>%
+         add_trace(data = plot.data, type = "bar", x = ~x, y = ~y) %>%
+         layout(barmode = "stack")
      }
-      
+     
      # draw the plot
-     plot_ly(
-       plot.data, x = ~x, y = ~y, type = "bar", name = "Information"
-     )
+     # plot_ly(
+     #   plot.data, x = ~x, y = ~y, type = "bar", name = "Information"
+     # )
    })
 })
 
