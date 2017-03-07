@@ -13,8 +13,8 @@ fluidPage(
                   selected = 'MJAGE'),
       
       radioButtons("demo", label = h3("Demographic of Interest"),
-                   choices = c("Age" = 'factor(CATAG6)', "Sex" = 'IRSEX', "Race" = 'factor(NEWRACE2)'), 
-                   selected = 'factor(CATAG6)'),
+                   choices = c("Age" = 'CATAG6', "Sex" = 'IRSEX', "Race" = 'NEWRACE2'), 
+                   selected = 'CATAG6'),
       
       conditionalPanel(condition = "input.question == 'MJAGE'",
         sliderInput("agerange", label = h3("Age Range"), min = 0, max = 80, value = c(0, 30))
