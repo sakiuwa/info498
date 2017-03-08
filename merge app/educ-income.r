@@ -3,6 +3,13 @@ library(dplyr)
 library(plotly)
 library(ggplot2)
 
+
+########################################################################################################################################
+################## THE CODE HERE WAS USED TO PRIMARILY AGGREGATE THE DATA AND TO EXPORT ################################################
+################## THEM AS CSVs SO THAT THEY CAN BE READ IN WHEN CREATING THE PLOTS     ################################################
+########################################################################################################################################
+
+
 ############ SAKI'S SOCIO DATA ###################
 
 # demo.data <- read.csv("../data/demo.csv")
@@ -124,37 +131,3 @@ income.key <- c("Less than $10,000", "$10,000-$19,999", "$20,000-$29,999", "$30,
 key <- matrix(income.key, ncol = 7, byrow = TRUE)
 colnames(key) <- c(1:7)
 rownames(key) <- "Income Level"
-
-
-# if (input$category == "educ") {
-#   data <- education
-# } else if (input$category == "indincome") {
-#   data <- income
-# } else if (input$category == "famincome") {
-#   data <- famincome
-# }
-# 
-# data <- education
-# 
-# nonuser <- filter(data, Usage == 0)
-# user <- filter(data, Usage == 1)
-# 
-# x <- nonuser[, 1]
-# y0 <- nonuser[, 2]
-# y1 <- user[, 2]
-# 
-# merge <- merge(nonuser, user, by="EDUCCAT2")
-# 
-# # draw the plot
-# test <- plot_ly(data, x =~x, y =~y0, type = 'bar', name = 'Non-Users') %>%
-#   add_trace(y = ~y1, name = 'Users') %>%
-#   layout(xaxis = "inputcategory", barmode = 'group')
-# 
-# p <- plot_ly(data, x = x, y = y0, type = 'bar', name = 'Non-Users') %>%
-#   add_trace(y = y1, name = 'Users') %>%
-#   layout(yaxis = list(title = 'Count'), barmode = 'group')
-# 
-# 
-# p2 <- plot_ly(merge, x = ~EDUCCAT2, y =~~Freq.x, type = 'bar', name = 'Non-Users') %>%
-#   add_trace(y = ~Freq.y, name = 'Users') %>%
-#   layout(yaxis = list(title = 'Count'), barmode = 'group')

@@ -4,6 +4,10 @@ library(ggplot2)
 library(plotly)
 library(tidyr)
 
+########################################################################################################################################
+################## THE CODE HERE WAS USED TO PRIMARILY AGGREGATE THE DATA AND TO EXPORT ################################################
+################## THEM AS CSVs SO THAT THEY CAN BE READ IN WHEN CREATING THE PLOTS     ################################################
+########################################################################################################################################
 
 ############## IRIS' DEMO DATA #################################
 
@@ -74,12 +78,12 @@ catag6[1] <- NULL
 
 ############## LANDON'S DEMO DATA #######################
 
-# mjdata <- read.csv("data/mjdata.csv")
-# demographics <- read.csv("data/demo.csv")
-# weights <- read.csv("data/weights.csv")
+# Data Prep:
+# mjdata <- read.csv("../data/mjdata.csv")
+# demographics <- read.csv("../data/demo.csv")
+# weights <- read.csv("../data/weights.csv")
 # demo.weights <- left_join(demographics, weights, by = "CASEID")
-
-# Filter users of marijuana only, and select relevant columns
+# 
 # demo <- select(demo.weights, CASEID, NEWRACE2, IRSEX, CATAG6, ANALWT_C, VESTR)
 # demo$NEWRACE2 <- factor(demo$NEWRACE2, 
 #                         levels=c(1:7),
@@ -90,40 +94,15 @@ catag6[1] <- NULL
 # 
 # users.only <- filter(mjdata, MJEVER == "(1) Yes") %>% select(CASEID, MJAGE, MJREC, MJDAY30A)
 # users.only <- left_join(users.only, demo, by = "CASEID")
+# users.only$MJREC <- factor(users.only$MJREC,
+#                            levels=c("(01) Within the past 30 days", "(02) More than 30 days ago but within the past 12 mos",
+#                                     "(03) More than 12 months ago",                         
+#                                     "(08) Used at some point in the past 12 mos LOG ASSN",  
+#                                     "(09) Used at some point in the lifetime LOG ASSN",     
+#                                     "(11) Used in the past 30 days LOGICALLY ASSIGNED"),
+#                            labels=c("(01, 11) Past 30 days", "(02, 08) >30days, but in past 12mos", 
+#                                     "(03) > 12 months", "(02, 08) >30days, but in past 12mos", 
+#                                     "(09) Some point in lifetime", "(01, 11) Past 30 days"))
 
+# Read in data necessary for this tab
 users.only <- read.csv("data/tab2-data.csv")
-
-
-
-
-########### BAO ADDED ############################
-# age <-group_by(users.only, MJREC, CATAG6) %>% summarise(count = n()) %>% mutate(perc = round(count/sum(count)*100, 2))  
-# a1 <- age %>% filter(MJREC == "(01) Within the past 30 days") %>% select(perc)
-# a1 <- c(a1$perc)
-# a2 <- age %>% filter(MJREC == "(02) More than 30 days ago but within the past 12 mos")%>% select(perc)
-# a2 <- c(a2$perc)
-# a3 <- age %>% filter(MJREC == "(03) More than 12 months ago")%>% select(perc)
-# a3 <- c(a3$perc)
-# a4 <- age %>% filter(MJREC == "(08) Used at some point in the past 12 mos LOG ASSN")%>% select(perc)
-# a4 <- c(a4$perc)
-# a5 <- age %>% filter(MJREC == "(09) Used at some point in the lifetime LOG ASSN")%>% select(perc)
-# a5 <- c(a5$perc)
-# a6 <- age %>% filter(MJREC == "(11) Used in the past 30 days LOGICALLY ASSIGNED")%>% select(perc)
-# a6 <- c(a6$perc)
-
-# a.all <- c("Within past 30 days", "More than 30 days but within past 12 months", "More than 12 months", "Past 12 months (LOG)", "In lifetime (LOG)", "Past 30 days (LOG)")
-# a.age <- c("12-17", "18-25", "26-34", "35-49", "50-64", "65+")
-# 
-# age.plot <- data.frame(t(data.frame(a1,a2,a3,a4,a5,a6)))
-# age.plot$age <- a.age
-# age.plot$answer <- a.all
-
-# data <- age.plot
-# plot <- plot_ly(data, x=~X1, y=~answer, name= "12-17", type="bar") %>% 
-#   add_trace(x =~X2, name = "18-25", marker = list(color = '7AA27B')) %>%
-#   add_trace(x =~X3, name = "26-34", marker = list(color = '9FBEA0')) %>%
-#   add_trace(x =~X4, name = "35-49", marker = list(color = 'CDE0CE')) %>%
-#   add_trace(x =~X5, name = "50-64", marker = list(color = 'E5F1E5')) %>% 
-#   add_trace(x =~X6, name = "65+", marker = list(color = 'E5F1E5')) %>%
-#   layout(title ="Breakdown by Age Group", xaxis = list(title = ""),yaxis = list(title = "Percent"),barmode="stack")
-# return(plot)

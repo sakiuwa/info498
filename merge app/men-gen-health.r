@@ -1,16 +1,17 @@
-# setwd("~/Desktop/ICPSR_36361/")
-# load( "./DS0001/36361-0001-Data.rda")
-# setwd("~/Desktop/INFO498C/final-project/")
-
 library(dplyr)
 library(plotly)
 library(reshape2)
+
+########################################################################################################################################
+################## THE CODE HERE WAS USED TO PRIMARILY AGGREGATE THE DATA AND TO EXPORT ################################################
+################## THEM AS CSVs SO THAT THEY CAN BE READ IN WHEN CREATING THE PLOTS     ################################################
+########################################################################################################################################
 
 # mj.health <- da36361.0001 %>% select(MJEVER, HEALTH2, DSTNRV30, DSTHOP30, DSTRST30, ADDPREV, SUICTHNK, SUICPLAN, SUICTRY, ANALWT_C)
 
 # write.csv(mj.health, file = "data/mjhealth.csv")
 
-mj.health <- read.csv("data/dont need/mjhealth.csv")
+# mj.health <- read.csv("data/dont need/mjhealth.csv")
 # 
 # yes.data <- mj.health %>% filter(MJEVER == "(1) Yes")
 # no.data <- mj.health %>% filter(MJEVER == "(2) No")
@@ -82,7 +83,6 @@ mj.health <- read.csv("data/dont need/mjhealth.csv")
 # write.csv(both.restless30, file = "data/both_restless30.csv")
 # both.restless30 <- read.csv("data/both_restless30.csv")
 
-
 # user <- read.csv("data/user.csv")
 # nonuser <- read.csv("data/nonuser.csv")
 # both <- read.csv("data/both.csv")
@@ -116,62 +116,16 @@ mj.health <- read.csv("data/dont need/mjhealth.csv")
 # write.csv(plan, file="data/plan.csv")
 
 # Suical Actions
-suicide.try <- mj.health %>% filter(!is.na(MJEVER) | !is.na(SUICTHNK)) %>% select(MJEVER, SUICTRY, ANALWT_C) %>% filter(!is.na(SUICTRY))
-yes.try <- suicide.try %>% filter(SUICTRY == "(1) Yes") %>% group_by(MJEVER) %>% summarize(YTotal = n(), YWTTotal=sum(ANALWT_C))
-yes.try <- yes.try %>% filter(!is.na(MJEVER)) %>% mutate(YPercent=round(YTotal/sum(YTotal) * 100,1))
-no.try <- suicide.try %>% filter(SUICTRY == "(2) No") %>% group_by(MJEVER) %>% summarize(NTotal = n(), NWTTotal=sum(ANALWT_C))
-no.try <- no.try %>% filter(!is.na(MJEVER)) %>% mutate(NPercent=round(NTotal/sum(NTotal) * 100,1))
-try.suicide <- merge(yes.try, no.try, by="MJEVER")
-
-yes <- c(try.suicide$YPercent, try.suicide$YWTTotal, try.suicide$YTotal)
-no <- c(try.suicide$NPercent, try.suicide$NWTTotal, try.suicide$NTotal)
-try <- data.frame(t(data.frame(yes, no)))
-try$y <- c("Yes", "No")
-write.csv(try, file="data/try.csv")
-
-think <- read.csv("data/think.csv")
-plan <- read.csv("data/plan.csv")
-try <- read.csv("data/try.csv")
-
-
-
-
-# plot <- plot_ly(think, x=~X1, y =~y, type = 'bar', name = "User", 
-#   marker = list(color = 'rgba(83,122,85, 0.6)', line = list(color = 'rgba(83,122,85, 1.0)', width = 3))) %>%
-#   add_trace(x = ~X2, name = 'Non-User', marker = list(color = 'rgba(159,190,160, 0.6)', line = list(color = 'rgba(159,190,160, 1.0)', width = 3))) %>%
-#   layout(title = "",
-#          xaxis = list(title = "",
-#                       showgrid = FALSE,
-#                       showline = FALSE,
-#                       showticklabels = FALSE,
-#                       zeroline = FALSE,
-#                       domain = c(0.15, 1)),
-#          yaxis = list(title = "",
-#                       showgrid = FALSE,
-#                       showline = FALSE,
-#                       showticklabels = FALSE,
-#                       zeroline = FALSE),
-#          barmode = 'stack',
-#          paper_bgcolor = 'rgb(248, 248, 255)', plot_bgcolor = 'rgb(248, 248, 255)',
-#          margin = list(l = 120, r = 10, t = 140, b = 80),
-#          showlegend = TRUE,
-#          hovermode = "closest") %>% 
-#   add_annotations(xref = 'paper', yref = "y", x = 0, y = ~y,
-#                   xanchor = 'right',
-#                   text = ~y,
-#                   font = list(family = 'Arial', size = 12,
-#                               color = '434343'),
-#                   showarrow = FALSE, align = 'right') %>% 
-#   add_annotations(xref = 'x', yref = 'y',
-#                   x = ~X1 / 2, y = ~y,
-#                   text = paste0(think[,"X1"], '%'),
-#                   font = list(family = 'Arial', size = 12,
-#                               color = '434343'),
-#                   showarrow = FALSE) %>% 
-#   add_annotations(xref = 'x', yref = 'y',
-#                   x = ~X1 + X2 / 2, y = ~y,
-#                   text = paste0(think[,"X2"], '%'),
-#                   font = list(family = 'Arial', size = 12,
-#                               color = '434343'),
-#                   showarrow = FALSE)
+# suicide.try <- mj.health %>% filter(!is.na(MJEVER) | !is.na(SUICTHNK)) %>% select(MJEVER, SUICTRY, ANALWT_C) %>% filter(!is.na(SUICTRY))
+# yes.try <- suicide.try %>% filter(SUICTRY == "(1) Yes") %>% group_by(MJEVER) %>% summarize(YTotal = n(), YWTTotal=sum(ANALWT_C))
+# yes.try <- yes.try %>% filter(!is.na(MJEVER)) %>% mutate(YPercent=round(YTotal/sum(YTotal) * 100,1))
+# no.try <- suicide.try %>% filter(SUICTRY == "(2) No") %>% group_by(MJEVER) %>% summarize(NTotal = n(), NWTTotal=sum(ANALWT_C))
+# no.try <- no.try %>% filter(!is.na(MJEVER)) %>% mutate(NPercent=round(NTotal/sum(NTotal) * 100,1))
+# try.suicide <- merge(yes.try, no.try, by="MJEVER")
 # 
+# yes <- c(try.suicide$YPercent, try.suicide$YWTTotal, try.suicide$YTotal)
+# no <- c(try.suicide$NPercent, try.suicide$NWTTotal, try.suicide$NTotal)
+# try <- data.frame(t(data.frame(yes, no)))
+# try$y <- c("Yes", "No")
+# write.csv(try, file="data/try.csv")
+

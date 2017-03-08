@@ -1,3 +1,4 @@
+# Function that returns horizonal bar plots for emotional instability questions
 drawPlot <- function(type, question, unit) {
   
   top_labels <- c("All of the time", "Most of the time", "Some of the time", "A little of the time", "None of the time")
@@ -154,6 +155,7 @@ drawPlot <- function(type, question, unit) {
   return(plot)
 }
 
+# Function that returns a plotly graph of the response for the suicidal behavior questions.
 drawSuicidePlot <- function(question, unit) {
   data <- read.csv(paste0("data/",question,".csv"))
   breakdown <- "Breakdown By Percentage"
@@ -249,37 +251,4 @@ drawSuicidePlot <- function(question, unit) {
   return(plot)
 }
 
-calcTable <- function(question) {
-  data <- read.csv(paste0("data/",question,".csv"))
-  
-}
 
-# data <- think
-# 
-# exposed <- c(data[1,6], data[2,7])
-# unexposed <- c(data[1,7], data[2,6])
-# 
-# df <- data.frame(exposed, unexposed)
-# row.names(df) <- c("Yes", "No")
-# 
-# test <- drawSuicidePlot("try", "weighted")
-
-
-
-
-
-
-### This tab of the shiny app will be looking at correlations between
-### marijuana users' self-reported mental health and general health
-
-### Description
-### This tab aims to show how marijuana users breakdown across age groups, sex, and race. We chose to focus
-### on three questions given in the 2014 National Survey on Drug Use and Health:
-### 1. How old were you the first time you used marijuana or hashish?
-### 2. How long has it been since you last used marijuana or hashish?
-### and 3. During the past 30 days, on how many days did you use marijuana or hashish?
-### For the first question, we show the number of respondents that reported each age, across demographics.
-### For the second question, we show the national percentage (estimated using the survey weights for each respondent,
-### given in the survey data) broken down across demographics for each response.
-### For the third question, we show the national count (estimated using the survey weights for each respondent, given in the survey data)
-### for each response, broken down across demographics.

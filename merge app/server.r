@@ -62,38 +62,90 @@ shinyServer(function(input, output) {
       slider.data <- filter(users.only, MJAGE >= slidemin, MJAGE <= slidemax)
       
       if(input$demo == "CATAG6") { # If Age demographic is selected
-        data <- group_by(slider.data, MJAGE, CATAG6) %>% summarise(count = n()) %>% mutate(perc = round(count/sum(count)*100, 2))
-        return(plot_ly(data, x=~MJAGE, y=~count, color=~CATAG6, type="bar") %>% layout(barmode='stack', xaxis=list(title="Age first used marijuana"), yaxis= list(title="# of respondents")))
-        
+        data <- read.csv("data/age_age.csv") %>% filter(options >= slidemin, options <= slidemax)
+        plot <- plot_ly(data, x=~options, y=~x1, type = "bar", name="12-17", marker = list(color = '426144')) %>%
+          add_trace(y =~x2, name = "18-25", marker = list(color = '537A55')) %>%
+          add_trace(y =~x3, name = "26-34", marker = list(color = '7AA27B')) %>%
+          add_trace(y =~x4, name = "35-49", marker = list(color = '9FBEA0')) %>%
+          add_trace(y =~x5, name = "50-64", marker = list(color = 'CDE0CE')) %>% 
+          add_trace(y =~x6, name = "65+", marker = list(color = 'E5F1E5')) %>% 
+          layout(yaxis = list(title = "# of respondents"), xaxis = list(title = "Age first used marijuana"), barmode = "stack", hovermode = "closest")
+        return(plot)
       } else if(input$demo == "IRSEX") { # If Sex demographic is selected
-        data <- group_by(slider.data, MJAGE, IRSEX) %>% summarise(count = n()) %>% mutate(perc = round(count/sum(count)*100, 2))
-        return(plot_ly(data, x=~MJAGE, y=~count, color=~IRSEX, type="bar") %>% layout(barmode="stack", xaxis=list(title="Age first used marijuana"), yaxis= list(title="# of respondents")))
-        
+        data <- read.csv("data/age_sex.csv") %>% filter(options >= slidemin, options <= slidemax)
+        plot <- plot_ly(data, x=~options, y=~x1, type = "bar", name="Male", marker = list(color = '537A55')) %>%
+          add_trace(y =~x2, name = "Female", marker = list(color = 'CDE0CE')) %>%
+          layout(yaxis = list(title = "# of respondents"), xaxis = list(title = "Age first used marijuana"), barmode = "stack", hovermode = "closest")
+        return(plot)
       } else { # If Race demographic is selected
-        data <- group_by(slider.data, MJAGE, NEWRACE2) %>% summarise(count = n()) %>% mutate(perc = round(count/sum(count)*100, 2))
-        return(plot_ly(data, x=~MJAGE, y=~count, color=~NEWRACE2, type="bar") %>% layout(barmode="stack", xaxis=list(title="Age first used marijuana"), yaxis= list(title="# of respondents")))
+        data <- read.csv("data/age_race.csv") %>% filter(options >= slidemin, options <= slidemax)        
+        plot <- plot_ly(data, x=~options, y=~x1, type = "bar", name="White", marker = list(color = '314933')) %>%
+          add_trace(y =~x2, name = "Black", marker = list(color = '426144')) %>%
+          add_trace(y =~x3, name = "Native American", marker = list(color = '537A55')) %>%
+          add_trace(y =~x4, name = "Pacific Islander", marker = list(color = '7AA27B')) %>%
+          add_trace(y =~x5, name = "Asian", marker = list(color = '9FBEA0')) %>% 
+          add_trace(y =~x6, name = "More than one Race", marker = list(color = 'CDE0CE')) %>% 
+          add_trace(y =~x7, name = "Hispanic", marker = list(color = 'E5F1E5')) %>% 
+          layout(yaxis = list(title = "# of respondents"), xaxis = list(title = "Age first used marijuana"), barmode = "stack", hovermode = "closest")
+        return(plot)
       }
     } else if(input$question == "MJREC") { # If "How long since used?" selected
       if(input$demo == "CATAG6") {
-        data <- group_by(users.only, MJREC, CATAG6) %>% summarise(natcount = sum(ANALWT_C)) %>% mutate(natperc = round(natcount/sum(natcount)*100, 2))
-        return(plot_ly(data, x=~MJREC, y=~natperc, color=~CATAG6, type="bar") %>% layout(barmode="stack", xaxis=list(title="Time since last used marijuana"), yaxis=list(title="National %")))
+        data <- read.csv("data/rec_age.csv")
+        plot <- plot_ly(data, x=~options, y=~x1, type = "bar", name="12-17", marker = list(color = '426144')) %>%
+          add_trace(y =~x2, name = "18-25", marker = list(color = '537A55')) %>%
+          add_trace(y =~x3, name = "26-34", marker = list(color = '7AA27B')) %>%
+          add_trace(y =~x4, name = "35-49", marker = list(color = '9FBEA0')) %>%
+          add_trace(y =~x5, name = "50-64", marker = list(color = 'CDE0CE')) %>% 
+          add_trace(y =~x6, name = "65+", marker = list(color = 'E5F1E5')) %>% 
+          layout(yaxis = list(title = "National %"), xaxis = list(title = "Time since last used marijuana"), barmode = "stack", hovermode = "closest")
+        return(plot)
       } else if(input$demo == "IRSEX") {
-        data <- group_by(users.only, MJREC, IRSEX) %>% summarise(natcount = sum(ANALWT_C)) %>% mutate(natperc = round(natcount/sum(natcount)*100, 2))
-        return(plot_ly(data, x=~MJREC, y=~natperc, color=~IRSEX, type="bar") %>% layout(barmode="stack", xaxis=list(title="Time since last used marijuana"), yaxis=list(title="National %")))
+        data <- read.csv("data/rec_sex.csv")
+        plot <- plot_ly(data, x=~options, y=~x1, type = "bar", name="Male", marker = list(color = '537A55')) %>%
+          add_trace(y =~x2, name = "Female", marker = list(color = 'CDE0CE')) %>% 
+          layout(yaxis = list(title = "National %"), xaxis = list(title = "Time since last used marijuana"), barmode = "stack", hovermode = "closest")
+        return(plot)
       } else {
-        data <- group_by(users.only, MJREC, NEWRACE2) %>% summarise(natcount = sum(ANALWT_C)) %>% mutate(natperc = round(natcount/sum(natcount)*100, 2))
-        return(plot_ly(data, x=~MJREC, y=~natperc, color=~NEWRACE2, type="bar") %>% layout(barmode="stack", xaxis=list(title="Time since last used marijuana"), yaxis=list(title="National %")))
+        data <- read.csv("data/rec_race.csv")
+        plot <- plot_ly(data, x=~options, y=~x1, type = "bar", name="White", marker = list(color = '314933')) %>%
+          add_trace(y =~x2, name = "Black", marker = list(color = '426144')) %>%
+          add_trace(y =~x3, name = "Native American", marker = list(color = '537A55')) %>%
+          add_trace(y =~x4, name = "Pacific Islander", marker = list(color = '7AA27B')) %>%
+          add_trace(y =~x5, name = "Asian", marker = list(color = '9FBEA0')) %>% 
+          add_trace(y =~x6, name = "More than one Race", marker = list(color = 'CDE0CE')) %>% 
+          add_trace(y =~x7, name = "Hispanic", marker = list(color = 'E5F1E5')) %>% 
+          layout(yaxis = list(title = "National %"), xaxis = list(title = "Time since last used marijuana"), barmode = "stack", hovermode = "closest")
+        return(plot)
       }
     } else { # If "Last 30 days?" selected
       if(input$demo == "CATAG6") {
-        data <- group_by(users.only, MJDAY30A, CATAG6) %>% summarise(natcount = round(sum(ANALWT_C), 0))
-        return(plot_ly(data, x=~MJDAY30A, y=~natcount, color=~CATAG6, type="bar", hoverinfo='text', text= ~paste('Count: ', format(natcount, big.mark=",", scientific=FALSE))) %>% layout(barmode="stack", xaxis=list(title="Days used in last 30 days"), yaxis=list(title="National count, based on weights")))
+        data <- read.csv("data/day_age.csv")
+        plot <- plot_ly(data, x=~options, y=~x1, type = "bar", name="12-17", marker = list(color = '426144')) %>%
+          add_trace(y =~x2, name = "18-25", marker = list(color = '537A55')) %>%
+          add_trace(y =~x3, name = "26-34", marker = list(color = '7AA27B')) %>%
+          add_trace(y =~x4, name = "35-49", marker = list(color = '9FBEA0')) %>%
+          add_trace(y =~x5, name = "50-64", marker = list(color = 'CDE0CE')) %>% 
+          add_trace(y =~x6, name = "65+", marker = list(color = 'E5F1E5')) %>% 
+          layout(yaxis = list(title = "National count, based on weights"), xaxis = list(title = "Days used in last 30 days"), barmode = "stack", hovermode = "closest")
+        return(plot)
       } else if(input$demo == "IRSEX") {
-        data <- group_by(users.only, MJDAY30A, IRSEX) %>% summarise(natcount = round(sum(ANALWT_C), 0)) 
-        return(plot_ly(data, x=~MJDAY30A, y=~natcount, color=~IRSEX, type="bar", hoverinfo='text', text= ~paste('Count: ', format(natcount, big.mark=",", scientific=FALSE))) %>% layout(barmode="stack", xaxis=list(title="Days used in last 30 days"), yaxis=list(title="National count, based on weights")))
+        data <- read.csv("data/day_sex.csv")
+        plot <- plot_ly(data, x=~options, y=~x1, type = "bar", name="Male", marker = list(color = '537A55')) %>%
+          add_trace(y =~x2, name = "Female", marker = list(color = 'CDE0CE')) %>% 
+          layout(yaxis = list(title = "National count, based on weights"), xaxis = list(title = "Days used in last 30 days"), barmode = "stack", hovermode = "closest")
+        return(plot)
       } else {
-        data <- group_by(users.only, MJDAY30A, NEWRACE2) %>% summarise(natcount = round(sum(ANALWT_C), 0)) 
-        return(plot_ly(data, x=~MJDAY30A, y=~natcount, color=~NEWRACE2, type="bar", hoverinfo='text', text= ~paste('Count: ', format(natcount, big.mark=",", scientific=FALSE))) %>% layout(barmode="stack", xaxis=list(title="Days used in last 30 days"), yaxis=list(title="National count, based on weights")))
+        data <- read.csv("data/day_race.csv")
+        plot <- plot_ly(data, x=~options, y=~x1, type = "bar", name="White", marker = list(color = '314933')) %>%
+          add_trace(y =~x2, name = "Black", marker = list(color = '426144')) %>%
+          add_trace(y =~x3, name = "Native American", marker = list(color = '537A55')) %>%
+          add_trace(y =~x4, name = "Pacific Islander", marker = list(color = '7AA27B')) %>%
+          add_trace(y =~x5, name = "Asian", marker = list(color = '9FBEA0')) %>% 
+          add_trace(y =~x6, name = "More than one Race", marker = list(color = 'CDE0CE')) %>% 
+        add_trace(y =~x7, name = "Hispanic", marker = list(color = 'E5F1E5')) %>% 
+          layout(yaxis = list(title = "National count, based on weights"), xaxis = list(title = "Days used in last 30 days"), barmode = "stack", hovermode = "closest")
+        return(plot)
       }
     }
   })
@@ -137,7 +189,7 @@ shinyServer(function(input, output) {
     }
   })
   
-  
+  ######### BAO'S TABS #############################
   
   output$questionPlot <- renderPlotly({
     drawPlot(input$type, input$questions, input$unit)
@@ -148,6 +200,7 @@ shinyServer(function(input, output) {
     drawSuicidePlot(input$suicide, input$unit2)
   })
   
+  # Attributal Risk Calculations
   output$calc <- renderUI({
     question <- input$suicide
     data <- read.csv(paste0("data/",question,".csv"))
@@ -158,19 +211,19 @@ shinyServer(function(input, output) {
     } else {
       type <- "Suicidal Attemp "
     }
-    out.exp <- data[1,6] #1464
-    out.no.exp <- data[1,7] #623    
-    no.out.exp <- data[2,6] #19541
-    no.out.no.exp <- data[2,7] #19800
-    total.out <- out.exp + out.no.exp #2087
-    total.no.out <- no.out.exp + no.out.no.exp #39341
+    out.exp <- data[1,6]
+    out.no.exp <- data[1,7] 
+    no.out.exp <- data[2,6] 
+    no.out.no.exp <- data[2,7] 
+    total.out <- out.exp + out.no.exp 
+    total.no.out <- no.out.exp + no.out.no.exp 
     ar <- (out.exp/total.out) - (no.out.exp/total.no.out)
     ar.people <- round(ar*100, 0)
     prop.ar <- round(ar / (out.exp/total.out), 2)
     
     
     HTML(
-      paste0("<h2>Atrributal Risk Calculations</h3>","<p>*We will assume survey data represents the incidences of drugs use in the US</p>,
+      paste0("<h2>Attributal Risk Calculations</h3>","<p>*We will assume survey data represents the incidences of drugs use in the US</p>,
       <pre>
 Exposed: Exposed to marijuana use
 Outcome: Answering 'Yes' to suicidal behavior questions
@@ -185,7 +238,7 @@ Total # of Outcome = <b>", total.out,"</b>    Total # of No Outcome = <b>", tota
 Atrributal Risk Due to using Marijuana = <b>(", out.exp,"/",total.out, ")</b> - <b>(", no.out.exp, "/", total.no.out, ")</b> = <b>", round(ar, 2), "</b> --> <b>", ar.people, " per 100 people</b>
 % of Attributal Risk due to using Marijuana = <b>((", out.exp,"/", total.out,") - <b>(", no.out.exp,"/",total.no.out,"))</b> / <b>((",out.exp,"/",total.out,"))</b> = <b>",prop.ar," --> ",round(prop.ar * 100,0),"%</b>
 
-<b>",round(prop.ar * 100,0), "%</b> of the incidence in ", type ,"in marijuana users is attributal to marijuana.          
+<b>",round(prop.ar * 100,0), "%</b> of the incidence in ", type ," in marijuana users is attributal to marijuana.          
        </pre>"
     ))
   })

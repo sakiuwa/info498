@@ -5,15 +5,17 @@ library(plotly)
 shinyUI(
   navbarPage(title="INFO498C", theme = "mytheme.css",
              tabPanel("Home", id="home",
-                      titlePanel("INFO498C Final Project"),
+                      h1("INFO498C Population Health Metrics"),
+                      h2("Final Project: Marijuanalytics"),
                       a(href="https://github.com/sakiuwa/info498", "Github Repo Can be found here"),
                       br(),
                       h2("Project Description"),
                       h3("Purpose"),
-                      p("The purpose of our study is to explore the impact of marijuana use in the US population and bring awareness to the topic especially now that more states are moving to legalize marijuana. We are also looking to see if there are any correlations between self-reported mental health and that of those who used marijuana."),
+                      p("The purpose of our study is to explore the impact of marijuana use in the US population and bring awareness to the topic, especially as more states are moving to legalize marijuana. Specifically, we will be exploring how marijuana use breakdown across different demographics (age, sex, and race), education and income levels, and mental health state."),
+                      p("Because we are simply exploring the possible correlation and patterns, we attempt to take a relatively neutral and unbiased approach when displaying and analyzing our data. We agreed on an interactive Shiny application as the deliverable for this study to give the users the freedom to explore the information on their own, allowing them to come up with their own opinions regarding the topic with the guidance of our tool. We hope this tool helps answer relevant questions and provide insight regarding marijuana use to policy makers and potential users."),
                       h3("Primary Questions:"),
                       tags$ul(tags$li("How does marijuana use break down across ", tags$b("age"), ", ", tags$b("sex"), ","," and ", tags$b("race?")),
-                         tags$li("What correlations can be found between the self-reported ", tags$b("mental health")," and ", tags$b("general health")," of marijuana users?"),
+                         tags$li("What correlations can be found between the self-reported ", tags$b("mental health")," and ", tags$b("emotional stability")," of marijuana users?"),
                          tags$li("What is the spread of marijuana users across varying ",tags$b("education")," and ", tags$b("income levels"),"?")
                       ),
                       h3("Dataset"),
@@ -21,10 +23,9 @@ shinyUI(
                       br(),
                       p("Dataset Source can be found", tags$a(href="http://www.icpsr.umich.edu/icpsrweb/ICPSR/studies/36361", "here.")),
                       h3("Target Audience"),
-                      p("The primary target audience will be marijuana users, as our hope is for them to understand the correlations between this drug use and the factors we are analyzing. Secondary target audiences include policy makers, health organizations, and the general public to raise awareness about our findings in order to help them make educated decisions.")
-              ),
+                      p("The primary target audience will be marijuana users, as our hope is for them to understand the correlations between this drug use and the factors we are analyzing. Secondary target audiences include policy makers, health organizations, and the general public to raise awareness about our findings in order to help them make educated decisions."),
+                      div(id="danke", img(src="dankest.png", width=700, height=300, alt= "Danke Memes"))),
              tabPanel("Overall Demographic Breakdown", id="demo1",
-                     
                         p("For this section, people will be able to explore demographic information about both marijuana users and non-users. The data being represented comes from the following question: Have you ever, even once, used marijuana or hashish? People who responded “yes” are represented as Users, and people who responded “no” are represented as Non-users under the Marijuana Usage section."),
                         br(),
                         p("The filter options: age, sex, race, are intended to provide a very general overview about two populations — those who have used marijuana and those who have not. This is important to keep in mind because those who have used marijuana may not continue to participate in the usage of the drug. The option 'both' under the section Marijuana Usage allows people to compare the proportions of those who have used marijuana against those who have not in order to receive a more complete understanding of how both proportions relate to the total population that responded to the question."),
@@ -41,14 +42,13 @@ shinyUI(
                                       choices = list("User", "Non-user", "Both"),
                                       selected = "User")
                         ),
-                        
                         # Show a plot of the generated distribution
                         mainPanel(
                           plotlyOutput("usePlot")
                         )
                       )
               ),
-             tabPanel("Marijuana User Demographics", id="demo2",
+             tabPanel("Marijuana Users Demographics", id="demo2",
                       p("This tab aims to show how marijuana users breakdown across age groups, sex, and race. We chose to focus on three questions given in the 2014 National Survey on Drug Use and Health:"),
                       tags$ol(
                         tags$li("How old were you the first time you used marijuana or hashish?"),
@@ -68,18 +68,16 @@ shinyUI(
                           radioButtons("demo", label = h3("Demographic of Interest"),
                                        choices = c("Age" = 'CATAG6', "Sex" = 'IRSEX', "Race" = 'NEWRACE2'), 
                                        selected = 'CATAG6'),
-                          
                           conditionalPanel(condition = "input.question == 'MJAGE'",
                                            sliderInput("agerange", label = h3("Age Range"), min = 0, max = 80, value = c(0, 30))
                           )
                         ),
-                        
                         mainPanel(
                           plotlyOutput(outputId = "demo_plot")
                         )
                       )    
              ),
-             tabPanel("Income x Education", id="socio",
+             tabPanel("Education & Income", id="socio",
                       p("This tab explores possible correlation between marijuana usage and education or income levels. Select one of the three categories on the left to see how the usage distribution varies between marijuana users and nonusers. The table represents what percentage of users or nonusers fall under each category, which is differentiated by the different color bars. The percentages are separated by whether they have used marijuana before or have never used it in their life. For example, roughly 30% of the population that answered they have used marijuana are college graduates. Same logic applies to the other categories."),
                       br(),
                       p("To see the Individual Income and Family Income levels, hover over the colored bars."),
@@ -90,22 +88,13 @@ shinyUI(
                                 choices = c("Education" = 'educ', "Individual Income" = 'indincome', "Family Income" = 'famincome'),
                                 selected = "educ")
                  ),
-                 
                  # Show a plot of the generated distribution
                  mainPanel(plotlyOutput('distPlot')
                  )
                )
              ),
              tabPanel("Suicidal Behaviors", id="suicidal",
-                                 tags$p("Lorem ipsum dolor sit amet, an eos decore noluisse, epicurei definitionem et has. Nec in blandit detraxit perpetua. Ut sea dolorem tacimates. No diam nominavi voluptaria sea. Et nihil admodum quo, pro cu tota laoreet posidonium.
-                                        
-                                        Est brute possit reformidans no, quodsi audiam has no. Ea libris labore vulputate has, autem torquatos persecuti no eos. Albucius maiestatis moderatius mei eu. Et harum recusabo petentium eam. Minimum singulis vim ad, legimus necessitatibus no sea, id apeirian lobortis mea. In augue postea qui.
-                                        
-                                        Movet persius partiendo mel ne, ferri scribentur suscipiantur ne eum. Vel id enim congue nusquam, eu dico iudico eos. Copiosae electram consetetur ex vel. Apeirian delicata laboramus te mel, his vide saepe consequuntur id, cu omnis accusamus prodesset vel. Vis cu laoreet pericula similique, eu alii denique dissentiunt quo, option corrumpit id quo. Cu accusamus corrumpit vel. Id iudico volutpat usu, copiosae vituperata te nec.
-                                        
-                                        Duo vero lorem partiendo cu, pro iuvaret imperdiet ea. Ne mea atqui albucius instructior. No vim exerci temporibus, tota nostro repudiandae duo id, eam alia intellegebat et. Ad vim omnis quaestio quaerendum, eum tota mundi aliquam no.
-                                        
-                                        Sea eirmod tritani ne, his molestie oportere ne. Duo vide congue delicatissimi at, in his eius nostro signiferumque, his hinc tollit cu. Mel hinc cetero aeterno ut. Ex sed diam discere volutpat, id per maiorum sapientem voluptaria, nam alienum perpetua eu. Mei nibh concludaturque no, putant constituam sadipscing ut sed, cum ad altera dicunt commodo. Pro alii clita volutpat ut."),
+                                 tags$p("This section of the site visualizes responses to questions about suicidal behavior between marijuana users and non-users. The three questions we focused on for this section were, “In the past 12 months, did you (1) seriously think about trying to kill yourself?, (2) make any plans to kill yourself?, or (3) try to kill yourself?”. Within each of these questions, you can explore the percentage of respondents who responded yes or no and were users or non-users, as well as the national counts (estimated using survey weights given in the survey data), and counts of the survey respondents. We have also given the attributable risk calculations found under the “calculations” tab."),
                                  tags$br(),
                       sidebarLayout(
                                sidebarPanel(
@@ -115,32 +104,23 @@ shinyUI(
                                                          "Did you try to kill yourself?" = 'try'),
                                              selected = "thinkkill"
                                  ),
+                                 conditionalPanel(condition = "input.tabs =='breakdown'",
                                  radioButtons("unit2", label = "Present Data In",
                                               choices = c("Percentage of Respondents" = 'percent', "US Population (WT)" = "weighted", "Survey Respondent" = 'total'),
                                               selected = "percent"
-                                              
-                                 )),
+                                 ))),
                         mainPanel(
-                          tabsetPanel(
-                            tabPanel("Breakdown", br(), plotlyOutput("suicidalPlot")),
-                            tabPanel("Calculations", br(), htmlOutput("calc"))
+                          tabsetPanel(id="tabs",
+                            tabPanel("breakdown", br(), plotlyOutput("suicidalPlot")),
+                            tabPanel("calculations", br(), htmlOutput("calc"))
                           )
                         )
-                        
               )),
-             tabPanel("Mental Health Question", id="health",
-                          tags$p("Lorem ipsum dolor sit amet, an eos decore noluisse, epicurei definitionem et has. Nec in blandit detraxit perpetua. Ut sea dolorem tacimates. No diam nominavi voluptaria sea. Et nihil admodum quo, pro cu tota laoreet posidonium.
-  
-                                 Est brute possit reformidans no, quodsi audiam has no. Ea libris labore vulputate has, autem torquatos persecuti no eos. Albucius maiestatis moderatius mei eu. Et harum recusabo petentium eam. Minimum singulis vim ad, legimus necessitatibus no sea, id apeirian lobortis mea. In augue postea qui.
-                                 
-                                 Movet persius partiendo mel ne, ferri scribentur suscipiantur ne eum. Vel id enim congue nusquam, eu dico iudico eos. Copiosae electram consetetur ex vel. Apeirian delicata laboramus te mel, his vide saepe consequuntur id, cu omnis accusamus prodesset vel. Vis cu laoreet pericula similique, eu alii denique dissentiunt quo, option corrumpit id quo. Cu accusamus corrumpit vel. Id iudico volutpat usu, copiosae vituperata te nec.
-                                 
-                                 Duo vero lorem partiendo cu, pro iuvaret imperdiet ea. Ne mea atqui albucius instructior. No vim exerci temporibus, tota nostro repudiandae duo id, eam alia intellegebat et. Ad vim omnis quaestio quaerendum, eum tota mundi aliquam no.
-                                 
-                                 Sea eirmod tritani ne, his molestie oportere ne. Duo vide congue delicatissimi at, in his eius nostro signiferumque, his hinc tollit cu. Mel hinc cetero aeterno ut. Ex sed diam discere volutpat, id per maiorum sapientem voluptaria, nam alienum perpetua eu. Mei nibh concludaturque no, putant constituam sadipscing ut sed, cum ad altera dicunt commodo. Pro alii clita volutpat ut."),
+             tabPanel("Emotional Stability", id="health",
+                          tags$p("This section of the site explores questions of mental health, visualizing their relationship to marijuana users and non-users. The three questions we focused on for this section were, “During the past 30 days, how often did you feel (1) restless?, (2) nervous?, and (3) hopeless?”. Answers to these questions ranged from “none of the time” to “all of the time”. 
+Within these questions, you can explore how responses to them breakdown across marijuana users, non-users, and both. You can also see the data presented as percentages of respondents, counts of respondents, and national counts (estimated using survey weights given in the survey data).
+                                 "),
                           tags$br(),
-                        
-                      
                       sidebarLayout(
                         sidebarPanel(
                           selectInput("questions", label = "During the past 30 days,",
@@ -150,53 +130,30 @@ shinyUI(
                                                   "How often did you feel restless?" = 'restless30'),
                                       selected = "all"
                           ),
-                          
                           radioButtons("type", label = "Filter By",
                                        choices = c("Both" = 'both', "User" = "user", "Non-User" = 'nonuser'),
                                        selected = "both"
-                            
                           ),
                           radioButtons("unit", label = "Present Data In",
                                        choices = c("Percentage of Respondents" = 'percent', "US Population (WT)" = "weighted", "Survey Respondent" = 'total'),
                                        selected = "percent"
-                                       
                           )
                           
                         ),
-                        mainPanel(plotlyOutput('questionPlot'), br()
-                                  
-                        )
-                    
-                      ),
-                      fluidRow(
-                        tags$div(class = "info", 
-                                 tags$p("Lorem ipsum dolor sit amet, an eos decore noluisse, epicurei definitionem et has. Nec in blandit detraxit perpetua. Ut sea dolorem tacimates. No diam nominavi voluptaria sea. Et nihil admodum quo, pro cu tota laoreet posidonium.
-                                        
-                                        Est brute possit reformidans no, quodsi audiam has no. Ea libris labore vulputate has, autem torquatos persecuti no eos. Albucius maiestatis moderatius mei eu. Et harum recusabo petentium eam. Minimum singulis vim ad, legimus necessitatibus no sea, id apeirian lobortis mea. In augue postea qui.
-                                        
-                                        Movet persius partiendo mel ne, ferri scribentur suscipiantur ne eum. Vel id enim congue nusquam, eu dico iudico eos. Copiosae electram consetetur ex vel. Apeirian delicata laboramus te mel, his vide saepe consequuntur id, cu omnis accusamus prodesset vel. Vis cu laoreet pericula similique, eu alii denique dissentiunt quo, option corrumpit id quo. Cu accusamus corrumpit vel. Id iudico volutpat usu, copiosae vituperata te nec.
-                                        
-                                        Duo vero lorem partiendo cu, pro iuvaret imperdiet ea. Ne mea atqui albucius instructior. No vim exerci temporibus, tota nostro repudiandae duo id, eam alia intellegebat et. Ad vim omnis quaestio quaerendum, eum tota mundi aliquam no.
-                                        
-                                        Sea eirmod tritani ne, his molestie oportere ne. Duo vide congue delicatissimi at, in his eius nostro signiferumque, his hinc tollit cu. Mel hinc cetero aeterno ut. Ex sed diam discere volutpat, id per maiorum sapientem voluptaria, nam alienum perpetua eu. Mei nibh concludaturque no, putant constituam sadipscing ut sed, cum ad altera dicunt commodo. Pro alii clita volutpat ut."),
-                                 tags$br()
-                                 )
-                        )
-                      # sidebarLayout(
-                      #   sidebarPanel(
-                      #     selectInput("suicide", label = "During the past 30 days,",
-                      #                 choices = c("All Questions" = 'all',
-                      #                             "How often did you feel nervous?" = 'nervous30',
-                      #                             "How often did you feel hopeless?" = 'hopeless30',
-                      #                             "How often did you feel restless?" = 'restless30'),
-                      #                 selected = "all"
-                      #     )
-                      #     
-                      #   ),
-                      #   mainPanel(plotlyOutput('suicidePlot')
-                      #   )
-                      # )
-   
-                )
+                        mainPanel(plotlyOutput('questionPlot'), br())
+                      )
+                ),
+             tabPanel('About Us', id = "about", align ="center",
+               titlePanel('Meet our Tweet Team!'),
+               p("INFO 498C Population Health Metrics Winter 17"),
+               div(class = "outer",
+                 div(class = "pics", img(src="Bao-pic.png", alt="Picture of Bao Dinh"), p(class="names" ,"Bao Dinh")),
+                 div(class = "pics", img(src="Iris-pic.png", alt="Picture of Iris Sun"), p(class="names" ,"Iris Sun")),
+                 div(class = "pics", img(src="Landon-pic.png", alt="Picture of Landon Young"), p(class="names" ,"Landon Young")),
+                 div(class = "pics", img(src="Saki-pic.png", alt="Picure of Saki Uwagawa"), p(class="names" ,"Saki Uwagawa")))
+             ),
+             tags$head(
+               tags$link(rel="shortcut icon", href="favicon.png")
+             )
   )
 )
